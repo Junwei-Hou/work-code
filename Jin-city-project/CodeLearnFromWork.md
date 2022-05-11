@@ -1,4 +1,6 @@
-2022.5.6
+2022
+
+5.6
 Trick: when it comes to the format of {__ob__: Observer}
             array can be transformed from way of JSON.parse(JSON.stringify(this.list))
 
@@ -25,4 +27,18 @@ Trick: Data transmit from parent to child:
         let ids = arrData.map((item) => {
                     return item.id
                     })
-        console.log(ids)
+        console.log(ids) //ids will collect all id data and return a new arr of ids
+
+5.10
+Trick: Find out all objects that meet the requirements in array
+        1.  let obj = response.rows // response.rows is data from back end 
+            let a = []
+            obj.forEach((ele) => {
+                if (ele.roleType == 1) {
+                a.push(ele)
+                }
+            })
+            console.log(a) 
+
+        2.  let a = arr.filter((ele) => ele.a == 2)
+        both ways can realize the function
