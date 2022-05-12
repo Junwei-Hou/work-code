@@ -2,7 +2,8 @@
 
 5.6
 Trick: when it comes to the format of {__ob__: Observer}
-            array can be transformed from way of JSON.parse(JSON.stringify(this.list))
+            array can be transformed from way of 
+            JSON.parse(JSON.stringify(this.list))
 
 5.7
 Trick: Data transmit from parent to child:
@@ -42,3 +43,6 @@ Trick: Find out all objects that meet the requirements in array
 
         2.  let a = arr.filter((ele) => ele.a == 2)
         both ways can realize the function
+        
+5.12 
+Trick:
