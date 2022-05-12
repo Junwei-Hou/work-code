@@ -3,7 +3,7 @@
 5.6
 Trick: when it comes to the format of {__ob__: Observer}
             array can be transformed from way of 
-            JSON.parse(JSON.stringify(this.list))
+                JSON.parse(JSON.stringify(this.list))
 
 5.7
 Trick: Data transmit from parent to child:
@@ -45,4 +45,53 @@ Trick: Find out all objects that meet the requirements in array
         both ways can realize the function
         
 5.12 
-Trick:
+Trick: In vue, data should be set at data and display in template
+        eg: <el-row class="tips">
+              <el-col :span="item.col" v-for="item in tips" :key="item.value">
+                <div class="circleTip">
+                  <span
+                    class="circle"
+                    v-show="item.type === 'circle'"
+                    :style="{ 'background-color': item.color }"
+                  ></span>
+                  <i
+                    class="el-icon-info icon-item"
+                    v-show="item.type === 'icon'"
+                    :style="{ color: item.color }"
+                  ></i>
+                  <span class="tip">{{ item.value }}</span>
+                </div>
+              </el-col>
+            </el-row>
+         
+        <---------->
+        data(){
+         return:{
+             tips: [
+        {
+          col: 2,
+          type: 'circle',
+          color: '#C3CAD9',
+          value: '未到提交时间'
+        },
+        {
+          col: 2,
+          type: 'circle',
+          color: '#E6A23C',
+          value: '未提交数据'
+        },
+        {
+          col: 2,
+          type: 'circle',
+          color: '#5DB879',
+          value: '已提交数据'
+        },
+        {
+          col: 3,
+          type: 'icon',
+          color: '#409EFF',
+          value: '该指标的上报说明'
+        },
+      ],
+     }
+    }
