@@ -64,8 +64,7 @@ Trick: In vue, data should be set at data and display in template
               </el-col>
             </el-row>
          
-        <---------->
-        data(){
+       data(){
          return:{
              tips: [
         {
