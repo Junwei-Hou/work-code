@@ -94,3 +94,29 @@ Trick: In vue, data should be set at data and display in template
       ],
      }
     }
+    
+ 5.18 
+ Trick: Upload text file with interface to backend
+           export function infoSystemConstructionData (query){
+                  return request({
+                        url: '/datareport/build/importInSysBuild',
+                        method: 'post',
+                        data: query,
+                        headers: {
+                              'Content-Type': 'multipart/form-data'
+                        },
+                       })
+                      }
+            handleUploadRequest(file) {
+                        this.queryParams.file = file.raw
+                        var files = new FormData()
+                        files.append('formId', this.queryParams.formId)
+                        files.append('reportYear', this.queryParams.reportYear)
+                        files.append('updateData', this.queryParams.updateData)
+                        files.append('reportOrgId', this.queryParams.reportOrgId)
+                        files.append('reportOrgName', this.queryParams.reportOrgName)
+                        files.append('file', this.queryParams.file)
+                        infoSystemConstructionData(files).then((res) => {
+                                    console.log(res)
+                                    })
+                        },
