@@ -120,3 +120,13 @@ Trick: In vue, data should be set at data and display in template
                                     console.log(res)
                                     })
                         },
+                     
+  5.19
+  Trick: When the methods is get, the url should be connected with params
+             export function download2(fileName){
+                  return request({
+                        url: `/datareport/build/downloadTemplate?fileName=${fileName}`,
+                        method: 'get',
+                        responseType: 'blob'
+                      })
+                     }
