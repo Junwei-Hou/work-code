@@ -130,3 +130,43 @@ Trick: In vue, data should be set at data and display in template
                         responseType: 'blob'
                       })
                      }
+  5.27
+  Trick: Merge cells
+      sortTableData(filter){ 
+            let classifyType = []
+            this.classifyList = []
+            let tableData = []
+            let list = JSON.parse(JSON.stringify(filter))
+            let start = 0
+            list.forEach((element, index) => {
+                    if(!classifyType.includes(element.classify)){
+                        let classifyItem = list.filter(item => item.classify == element.classify)
+                        tableData = tableData.concat(classifyItem)
+                        classifyType.push(element.classify)
+                        this.classifyList.push({
+                                    type: element.classify,
+                                    num: classifyItem.length,
+                                    index: start
+                        })
+                        start += classifyItem.length
+                       }
+                     });
+                     return tableData
+                    },
+              
+      objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+            if (columnIndex === 1) {
+                        let filter = this.classifyList.filter(item => item.type == row.classify)
+                        if (rowIndex == filter[0].index && filter.length) {
+                        return {
+                                  rowspan: filter[0].num,
+                                  colspan: 1
+                                    }
+                             } else {
+                                    return {
+                                            rowspan: 0,
+                                            colspan: 0
+                                          }
+                                        }
+                                      }
+                                    },
