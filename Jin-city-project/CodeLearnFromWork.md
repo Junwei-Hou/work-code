@@ -170,3 +170,20 @@ Trick: In vue, data should be set at data and display in template
                                         }
                                       }
                                     },
+  5.31
+  Trick: Table arrangement from landscape to portrait
+          let matrixData = this.originData.map((row) => {
+      let arr = []
+      for (let key in row) {
+        arr.push(row[key])
+      }
+      return arr
+    })
+    this.transData = matrixData[0].map((col, i) => {
+      return [
+        this.originTitle[i],
+        ...matrixData.map((row) => {
+          return row[i]
+        })
+      ]
+    })
