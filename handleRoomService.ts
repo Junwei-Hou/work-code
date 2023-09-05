@@ -58,81 +58,7 @@ export class RoomsService {
     private configService: ConfigService,
   ) { }
 
-  /**
-   * Create a room with RoomsPayload fields
-   * @param {RoomsPayload} payload rooms payload
-   * @returns {Promise<IRooms>} created rooms data
-   */
-  async createRoom(payload: RoomsPayload): Promise<IRooms> {
-    const room = await this.roomsModel
-      .findOne({ roomName: payload.roomName })
-      .exec();
-    if (room) {
-      throw new NotAcceptableException(
-        'The roomName currently exists. Please choose another one.',
-      );
-    }
-    const createdRoom = new this.roomsModel({
-      userId: '',
-      ...payload,
-      roomId: new ObjectId(),
-      mute: payload.mute || false,
-      type: payload.type || 'public',
-      status: payload.status || 'open',
-      isActive: payload.isActive || true,
-    });
-    return createdRoom.save();
-  }
 
-  /**
-   * @returns {Promise<IRooms>} queried room data
-   */
-  async getAllRooms(): Promise<IRooms[]> {
-    return await this.roomsModel
-      .find({}, 'roomName roomId roomTemplateCode')
-      .exec();
-  }
-
-  /**
-   * Create a roomUsers with UsersPayload fields
-   * @param {UsersPayload} payload roomUsers payload
-   * @returns {Promise<IRoomsUsers>} created roomUsers data
-   *
-   * Create a roomUsers with UsersPayload fields
-   * @param {AreasPayload} payload roomUsers payload
-   * @returns {Promise<IRoomsAreas>} created roomUsers data
-   */
-
-  async getUserIdByToken(token: any): Promise<any> {
-    let { userId } = jwt.verify(
-      token,
-      this.configService.get('WEBTOKEN_SECRET_KEY'),
-    ) as JwtPayload; 
-    return userId
-  }
-
-  async handleOvertime(token: any): Promise<any> {
-    // get userId from token
-    let { userId } = jwt.verify(
-      token,
-      this.configService.get('WEBTOKEN_SECRET_KEY'),
-    ) as JwtPayload; 
-
-    // check if the user is in the room
-    let roomUser = await this.roomsUsersModel.findOne({
-      userId: userId,
-      status: 'open',
-      isDeleted: true,
-    }).exec();
-
-    // no existed
-    if (!roomUser) {
-      return 
-    }
-    // existed
-    await this.handleUserLeft(userId)
-    return
-  }
 
   // room play rules:
   // set MaxNumber and WarnNumber, firstly, users will jump into room, and then go into each area in room, the hierarchy is room => area
@@ -140,6 +66,8 @@ export class RoomsService {
   // 1. if all users in areas reach MaxNumber, then create new area enable user to go in
   // 2. if there are users in areas below WarnNumber, then user will go in as priority 
   // 3. if all areas users in there which is over WarnNumber and below MaxNumber, then user will go in
+
+  
   async handleRoomAreaUsers(message: any, userId: string): Promise<any> {
     const MaxNumber = 5; // set maximum ppl 
     const WarnNumber = 3; // set warning ppl
@@ -286,7 +214,7 @@ export class RoomsService {
     }
   }
 
-  // 当玩家进入房间之后，接着会生成房间与区关系表
+  // When the player enters the room, the room and area table is generated
   async createRoomArea(roomId: string, areaId: any) {
     const createRoomArea = new this.roomsAreasModel({
       roomId: roomId,
@@ -296,7 +224,7 @@ export class RoomsService {
     });
     await createRoomArea.save();
   }
-  // 当玩家进入房间之后，接着会生成房间与区与玩家关系表
+  // When the player enters the room, the room area and player table is generated
   async createRoomAreaUser(roomId: string, areaId: any, userId: string) {
     const createRoomAreaUser = new this.roomsAreaUsersModel({
       roomId: roomId,
@@ -327,17 +255,17 @@ export class RoomsService {
     }
   }
 
-  // 当玩家离开房间之后，接着会删除房间与用户关系表
+  // When the player leaves the room, the room and user table is then deleted
   async destroyRoomUser(userId) {
     await this.roomsUsersModel.deleteOne({ userId: userId });
   }
 
-  // 当玩家离开房间之后，接着会删除房间与区关系表
+  // When the player leaves the room, the room and area table is then deleted
   async destroyRoomArea(areaId) {
     await this.roomsAreasModel.deleteOne({ areaId: areaId });
   }
 
-  // 当玩家离开房间之后，接着会删除房间与区与玩家关系表
+  // When the player leaves the room, the room area and user table is then deleted
   async destroyRoomAreaUser(areaId: any, userId: any) {
     await this.roomsAreaUsersModel.deleteOne({ areaId: areaId, userId: userId });
   }
