@@ -11,3 +11,5 @@ there are 3 collections, 'rooms_users' 'rooms_areas' 'rooms_area_users'
 
 # code for calling data from chatgpt in China for node nest.js - openAI.service
 When ChatGPT transmits data in a "streaming" manner, the data will be sent in chunks or segments, and data will be sent by websockets to frontend
+
+# code for webSockets configuration for node nest.js - webSocket.gateway
