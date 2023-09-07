@@ -1,6 +1,8 @@
 # work-code
 This is code skills learned from work for reviewing
 
+# instruction
+
 # code for allocating players into game room and areas - handleRoomService
 room play rules:
 set MaxNumber and WarnNumber, firstly, users will jump into room, and then go into each area in room, the hierarchy is room => area
