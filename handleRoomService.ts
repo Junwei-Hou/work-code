@@ -27,7 +27,7 @@ import * as jwt from 'jsonwebtoken';
  */
 interface JwtPayload {
   userId: string;
-  // 其他属性
+  // other attribute
 }
 export enum RoomUserAction {
   ROOM_ENTER = 'ROOM_ENTER',
